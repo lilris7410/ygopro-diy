@@ -39,7 +39,7 @@ function c18781006.splimit(e,c)
 end
 function c18781006.condition(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return re:IsHasType(EFFECT_TYPE_ACTIVATE) and rp~=tp and Duel.IsChainNegatable(ev) and
+	return re:IsHasType(EFFECT_TYPE_ACTIVATE) and rp~=tp and Duel.IsChainNegatable(ev) and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and
 		Duel.IsExistingMatchingCard(c18781006.ccfilter2,c:GetControler(),LOCATION_MZONE,0,1,nil)
 end
 function c18781006.necost(e,tp,eg,ep,ev,re,r,rp,chk)
