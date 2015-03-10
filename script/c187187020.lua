@@ -54,7 +54,7 @@ function c187187020.splimit(e,se,sp,st)
 end
 function c187187020.spfilter1(c,tp)
 	return c:IsCode(187187006) and c:IsAbleToGraveAsCost() and c:IsCanBeFusionMaterial()
-		and Duel.IsExistingMatchingCard(c187187020.spfilter2,tp,LOCATION_MZONE,0,1,c)
+		and Duel.IsExistingMatchingCard(c187187020.spfilter2,tp,LOCATION_ONFIELD,0,1,c)
 end
 function c187187020.spfilter2(c)
 	return c:IsCanBeFusionMaterial() and c:IsSetCard(0x3abb) and c:GetLevel()>=5 and c:IsAbleToGraveAsCost() and c:IsCanBeFusionMaterial()

@@ -5,9 +5,20 @@ function c18730306.initial_effect(c)
 	e1:SetDescription(aux.Stringid(17393207,0))
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_IGNITION)
-	e1:SetCountLimit(1,187199008)
+	e1:SetCountLimit(1,18730306)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCost(c18730306.cost)
+	e1:SetTarget(c18730306.target)
+	e1:SetOperation(c18730306.operation)
+	c:RegisterEffect(e1)
+	--special summon
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(73176465,0))
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetCountLimit(1,18730306)
+	e1:SetCode(EVENT_TO_GRAVE)
+	e1:SetCondition(c18730306.condtion)
 	e1:SetTarget(c18730306.target)
 	e1:SetOperation(c18730306.operation)
 	c:RegisterEffect(e1)
@@ -17,13 +28,16 @@ function c18730306.initial_effect(c)
 	e1:SetCode(EFFECT_EXTRA_RITUAL_MATERIAL)
 	c:RegisterEffect(e1)
 end
+function c18730306.condtion(e,tp,eg,ep,ev,re,r,rp)
+	return bit.band(r,REASON_EFFECT)~=0
+end
 function c18730306.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:IsAbleToGraveAsCost() and c:IsDiscardable() end
 	Duel.SendtoGrave(c,REASON_COST+REASON_DISCARD)
 end
 function c18730306.filter(c)
-	return (c:IsCode(18730304) or c:IsCode(18730305) or c:IsCode(51124303) or c:IsCode(116810928)) and c:IsAbleToHand()
+	return (c:IsCode(18730304) or c:IsCode(18730305) or c:IsCode(51124303) or c:IsCode(116810928) or c:IsCode(18730309)) and c:IsAbleToHand()
 end
 function c18730306.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingMatchingCard(c18730306.filter,tp,LOCATION_DECK,0,1,nil) end
