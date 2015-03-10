@@ -7,7 +7,7 @@ function c187187032.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(TIMING_ATTACK,0x11e0)
-	e1:SetCost(c187187032.thcost)
+	e1:SetCost(c187187032.cost)
 	e1:SetTarget(c187187032.target)
 	e1:SetOperation(c187187032.activate)
 	c:RegisterEffect(e1)
@@ -22,6 +22,12 @@ function c187187032.initial_effect(c)
 	e2:SetTarget(c187187032.thtg)
 	e2:SetOperation(c187187032.thop)
 	c:RegisterEffect(e2)
+end
+function c187187032.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(c187187032.thfilter,tp,LOCATION_GRAVE,0,1,nil) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+	local g=Duel.SelectMatchingCard(tp,c187187032.thfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function c187187032.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) and chkc:IsDestructable() and chkc~=e:GetHandler() end

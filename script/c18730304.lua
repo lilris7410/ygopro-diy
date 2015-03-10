@@ -1,16 +1,19 @@
 --美少女萬華鏡
 function c18730304.initial_effect(c)
-	aux.AddRitualProcGreater(c,aux.FilterBoolFunction(Card.IsSetCard,0xabb))
+	aux.AddRitualProcEqual(c,c18730304.ritual_filter)
 	--search
-	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(18730304,0))
-	e2:SetCategory(CATEGORY_SEARCH+CATEGORY_TOHAND)
-	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetCountLimit(1,18730304)
-	e2:SetRange(LOCATION_GRAVE)
-	e2:SetCost(c18730304.thcost1)
-	e2:SetTarget(c18730304.thtarget1)
-	e2:SetOperation(c18730304.thoperation1)
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(18730304,0))
+	e1:SetCategory(CATEGORY_SEARCH+CATEGORY_TOHAND)
+	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetCountLimit(1,18730304)
+	e1:SetRange(LOCATION_GRAVE)
+	e1:SetCost(c18730304.thcost1)
+	e1:SetTarget(c18730304.thtarget1)
+	e1:SetOperation(c18730304.thoperation1)
+	c:RegisterEffect(e1)
+	local e2=e1:Clone()
+	e2:SetRange(LOCATION_HAND)
 	c:RegisterEffect(e2)
 	--search
 	local e2=Effect.CreateEffect(c)
@@ -31,6 +34,9 @@ end
 function c18730304.thfilter1(c)
 	return c:IsSetCard(0xabb) and bit.band(c:GetType(),0x81)==0x81 and c:IsAbleToHand()
 end
+function c18730304.ritual_filter(c)
+	return c:IsSetCard(0xabb) and bit.band(c:GetType(),0x81)==0x81
+end
 function c18730304.thtarget1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c18730304.thfilter1,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE)
@@ -44,13 +50,13 @@ function c18730304.thoperation1(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c18730304.rfilter1(c)
-	return c:IsSetCard(0xabb) and c:IsAbleToRemoveAsCost() and bit.band(c:GetType(),0x81)==0x81
+	return c:IsSetCard(0xabb) and c:IsAbleToGraveAsCost() and bit.band(c:GetType(),0x81)==0x81
 end
 function c18730304.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c18730304.rfilter1,tp,LOCATION_GRAVE,0,1,e:GetHandler()) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c18730304.rfilter1,tp,LOCATION_HAND+LOCATION_DECK,0,1,e:GetHandler()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c18730304.rfilter1,tp,LOCATION_GRAVE,0,1,1,e:GetHandler())
-	Duel.Remove(g,POS_FACEUP,REASON_COST)
+	local g=Duel.SelectMatchingCard(tp,c18730304.rfilter1,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,e:GetHandler())
+	Duel.SendtoGrave(g,REASON_COST)
 end
 function c18730304.rectg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToHand() end

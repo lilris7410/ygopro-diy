@@ -1,17 +1,17 @@
 --最终武装的魔王少女
 function c187187003.initial_effect(c)
 	--xyz summon
-	aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x3abb),5,2)
+	aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x3abb),5,3)
 	c:EnableReviveLimit()
 	--equip
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(10187,2))
+	e1:SetDescription(aux.Stringid(10187,1))
 	e1:SetCategory(CATEGORY_EQUIP)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetProperty(EFFECT_FLAG_NO_TURN_RESET+EFFECT_FLAG_CARD_TARGET)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCountLimit(1)
-	e1:SetCondition(c187187003.eqcon)
+	e1:SetCountLimit(1,187187003)
+	e1:SetCost(c187187003.cost)
 	e1:SetTarget(c187187003.eqtg)
 	e1:SetOperation(c187187003.eqop)
 	c:RegisterEffect(e1)
@@ -43,38 +43,40 @@ end
 function c187187003.filter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x3abb) 
 end
-function c187187003.eqcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsSetCard,1,nil,0x6abb)
-end
 function c187187003.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c187187003.filter(chkc) end
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE+LOCATION_EXTRA) and chkc:IsControler(tp) and c187187003.filter(chkc) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
-		and Duel.IsExistingTarget(c187187003.filter,tp,LOCATION_GRAVE,0,1,nil) end
+		and Duel.IsExistingTarget(c187187003.filter,tp,LOCATION_GRAVE+LOCATION_EXTRA,0,1,nil) end
 	Duel.SelectOption(tp,aux.Stringid(10187,13))
 	Duel.SelectOption(1-tp,aux.Stringid(10187,13))
-	Duel.Hint(HINT_CARD,0,187187025)
-	Duel.Hint(HINT_CARD,0,187187029)
-	Duel.Hint(HINT_CARD,0,187187023)
-	Duel.Hint(HINT_CARD,0,187187027)
-	Duel.Hint(HINT_CARD,0,187187024)
-	Duel.Hint(HINT_CARD,0,187187011)
-	Duel.Hint(HINT_CARD,0,187187007)
-	Duel.Hint(HINT_CARD,0,187187010)
-	Duel.Hint(HINT_CARD,0,187187015)
-	Duel.Hint(HINT_CARD,0,187187025)
-	Duel.Hint(HINT_CARD,0,187187005)
-	Duel.Hint(HINT_CARD,0,187187014)
-	Duel.Hint(HINT_CARD,0,187187002)
+	Duel.Hint(HINT_CARD,0,18781001)
+	Duel.Hint(HINT_CARD,0,18781002)
+	Duel.Hint(HINT_CARD,0,18781003)
+	Duel.Hint(HINT_CARD,0,18781004)
+	Duel.Hint(HINT_CARD,0,18781005)
+	Duel.Hint(HINT_CARD,0,18781006)
+	Duel.Hint(HINT_CARD,0,18781007)
+	Duel.Hint(HINT_CARD,0,18781008)
+	Duel.Hint(HINT_CARD,0,18781009)
+	Duel.Hint(HINT_CARD,0,18781010)
+	Duel.Hint(HINT_CARD,0,18781011)
+	Duel.Hint(HINT_CARD,0,18781012)
+	Duel.Hint(HINT_CARD,0,18781013)
     Duel.SelectOption(tp,aux.Stringid(10187,2))
 	Duel.SelectOption(1-tp,aux.Stringid(10187,2))
 	Duel.Hint(HINT_CARD,0,187187003)	
 	local fc=Duel.GetLocationCount(tp,LOCATION_SZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	local g=Duel.SelectTarget(tp,c187187003.filter,tp,LOCATION_GRAVE,0,1,fc,nil)
+	local g=Duel.SelectTarget(tp,c187187003.filter,tp,LOCATION_GRAVE+LOCATION_EXTRA,0,1,fc,nil)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,g:GetCount(),0,0)
 end
 function c187187003.eqlimit(e,c)
 	return e:GetOwner()==c
+end
+function c187187003.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+    if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_EFFECT) end
+    local g=e:GetHandler():GetOverlayGroup()
+    Duel.SendtoGrave(g,REASON_COST)
 end
 function c187187003.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -106,14 +108,14 @@ function c187187003.rmfilter(c)
 	return c:IsAbleToRemove()
 end
 function c187187003.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c187187003.rmfilter,tp,0,LOCATION_MZONE+LOCATION_SZONE,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c187187003.rmfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) end
 	Duel.SelectOption(tp,aux.Stringid(10187,3))
 	Duel.SelectOption(1-tp,aux.Stringid(10187,3))
-	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,1-tp,LOCATION_MZONE+LOCATION_SZONE)
+	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,1-tp,LOCATION_ONFIELD)
 end
 function c187187003.rmop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c187187003.rmfilter,tp,0,LOCATION_MZONE+LOCATION_SZONE,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,c187187003.rmfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
 	if g:GetCount()>0 then
 		Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
 	end

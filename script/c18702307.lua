@@ -51,7 +51,6 @@ function c18702307.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,0,tp,1)
 end
 function c18702307.desop(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,c18702307.filter,tp,LOCATION_DECK,0,1,1,nil,nil)
 	if g:GetCount()>0 then
