@@ -10,7 +10,6 @@ function c3033031.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e1:SetCode(EVENT_BATTLE_DAMAGE)
-	e1:SetCondition(c3033031.condition)
 	e1:SetTarget(c3033031.target)
 	e1:SetOperation(c3033031.operation)
 	c:RegisterEffect(e1)
@@ -22,21 +21,40 @@ function c3033031.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetValue(c3033031.atkval)
 	c:RegisterEffect(e1)
-	--spsummon
+	--destroy
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(69000994,0))
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-	e1:SetProperty(EFFECT_FLAG_DELAY)
-	e1:SetRange(LOCATION_MZONE)
-	e1:SetCode(EVENT_RECOVER)
-	e1:SetCondition(c3033031.cd)
-	e1:SetTarget(c3033031.untg)
-	e1:SetOperation(c3033031.unop)
+	e1:SetDescription(aux.Stringid(26593852,0))
+	e1:SetCategory(CATEGORY_RECOVER)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e1:SetCode(EVENT_BATTLE_START)
+	e1:SetCondition(c3033031.con)
+	e1:SetCost(c3033031.cost)
+	e1:SetTarget(c3033031.tg)
+	e1:SetOperation(c3033031.op)
 	c:RegisterEffect(e1)
 end
-function c3033031.condition(e,tp,eg,ep,ev,re,r,rp)
-	return ep~=tp and Duel.GetAttackTarget()==nil
+function c3033031.con(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetHandler():GetBattleTarget()
+	return tc and tc:IsFaceup() and tc:GetAttack()<e:GetHandler():GetAttack()
+end
+function c3033031.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local tc=e:GetHandler():GetBattleTarget()
+	local atk=tc:GetAttack()
+	if chk==0 then return true end
+	if tc and tc:IsReleasable() then
+	Duel.Release(tc,REASON_COST)
+	end
+	e:SetLabel(atk)
+end
+function c3033031.tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetTargetPlayer(tp)
+	Duel.SetTargetParam(e:GetLabel())
+	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,e:GetLabel())
+end
+function c3033031.op(e,tp,eg,ep,ev,re,r,rp)
+	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
+	Duel.Recover(p,d,REASON_EFFECT)
 end
 function c3033031.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
