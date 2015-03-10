@@ -58,10 +58,10 @@ function c18799993.initial_effect(c)
 	c:RegisterEffect(e7)
 end
 function c18799993.eqlimit(e,c)
-	return (c:IsCode(18799991) or c:IsCode(18799992))
+	return  c:IsCode(18799991)
 end
 function c18799993.filter(c)
-	return c:IsFaceup() and (c:IsCode(18799991) or c:IsCode(18799992))
+	return c:IsFaceup() and c:IsCode(18799991)
 end
 function c18799993.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:GetLocation()==LOCATION_MZONE and c18799993.filter(chkc) end

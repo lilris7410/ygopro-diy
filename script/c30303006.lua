@@ -27,12 +27,11 @@ function c30303006.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c30303006.costfilter(c)
-	return c:IsType(TYPE_SPELL) and c:IsReleasable()
+	return c:IsType(TYPE_SPELL) and c:IsDiscardable()
 end
 function c30303006.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c30303006.costfilter,tp,LOCATION_ONFIELD,0,1,e:GetHandler()) end
-	local g=Duel.SelectTarget(tp,c30303006.costfilter,tp,LOCATION_ONFIELD,0,1,1,nil)
-	Duel.Release(g,REASON_COST)
+	if chk==0 then return Duel.IsExistingMatchingCard(c30303006.costfilter,tp,LOCATION_HAND,0,1,e:GetHandler()) end
+	Duel.DiscardHand(tp,c30303006.costfilter,1,1,REASON_COST+REASON_DISCARD)
 end
 function c30303006.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDestructable,tp,0,LOCATION_MZONE,1,nil) end

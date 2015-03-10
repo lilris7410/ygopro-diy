@@ -47,9 +47,6 @@ end
 function c30303021.remop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=e:GetLabel()
 	if ct==0 then return end
-		Duel.SelectOption(tp,aux.Stringid(30303021,0))
-	    Duel.SelectOption(1-tp,aux.Stringid(30303021,0))
-	    Duel.Hint(HINT_CARD,0,64332231)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local dg=Duel.SelectMatchingCard(tp,Card.IsDestructable,tp,0,LOCATION_ONFIELD+LOCATION_HAND,ct,ct,nil)
 	Duel.HintSelection(dg)

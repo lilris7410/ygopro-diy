@@ -40,18 +40,10 @@ end
 function c18730301.cfilter(c)
 	return c:IsSetCard(0xabb) and c:IsReleasable()
 end
-function c18730301.cfilter2(c)
-	return c:IsSetCard(0xabb) and c:IsReleasable() and c:IsType(TYPE_PENDULUM)
-end
 function c18730301.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingTarget(c18730301.cfilter,tp,LOCATION_ONFIELD+LOCATION_HAND,0,1,nil) end
-	if Duel.GetFieldCard(tp,LOCATION_SZONE,6) and Duel.GetFieldCard(tp,LOCATION_SZONE,7) then 
-	local g=Duel.SelectTarget(tp,c18730301.cfilter,tp,LOCATION_SZONE,0,1,1,nil)
+	if chk==0 then return Duel.IsExistingTarget(c18730301.cfilter,tp,LOCATION_ONFIELD,0,1,nil) end
+	local g=Duel.SelectTarget(tp,c18730301.cfilter,tp,LOCATION_ONFIELD,0,1,1,nil)
 	Duel.Release(g,REASON_COST)
-	else
-	local g=Duel.SelectTarget(tp,c18730301.cfilter,tp,LOCATION_ONFIELD+LOCATION_HAND,0,1,1,nil)
-	Duel.Release(g,REASON_COST)
-	end
 end
 function c18730301.defilter(c)
 	return c:IsSetCard(0xabb) and c:IsType(TYPE_PENDULUM)

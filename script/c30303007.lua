@@ -1,7 +1,7 @@
 --魔王少女
 function c30303007.initial_effect(c)
 	--xyz summon
-	aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0xabb),4,3)
+	aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0xabb),4,4)
 	c:EnableReviveLimit()
 	--draw
 	local e2=Effect.CreateEffect(c)

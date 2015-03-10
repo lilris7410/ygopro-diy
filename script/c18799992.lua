@@ -3,6 +3,14 @@ function c18799992.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,aux.FilterBoolFunction(c18799992.synfilter),aux.NonTuner(c18799992.scyfilter2),1)
 	c:EnableReviveLimit()
+	--change name
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e2:SetCode(EFFECT_CHANGE_CODE)
+	e2:SetRange(LOCATION_ONFIELD)
+	e2:SetValue(18799991)
+	c:RegisterEffect(e2)
 	--search
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
@@ -46,7 +54,7 @@ function c18799992.scyfilter2(c)
 end
 function c18799992.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c18799992.filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) and
-	Duel.IsExistingMatchingCard(c18799992.filter2,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end
+	Duel.IsExistingMatchingCard(c18799992.filter2,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil)  end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK+LOCATION_GRAVE)
 end
 function c18799992.op(e,tp,eg,ep,ev,re,r,rp)
