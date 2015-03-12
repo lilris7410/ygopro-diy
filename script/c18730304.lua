@@ -7,14 +7,11 @@ function c18730304.initial_effect(c)
 	e1:SetCategory(CATEGORY_SEARCH+CATEGORY_TOHAND)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetCountLimit(1,18730304)
-	e1:SetRange(LOCATION_GRAVE)
+	e1:SetRange(LOCATION_GRAVE+LOCATION_HAND)
 	e1:SetCost(c18730304.thcost1)
 	e1:SetTarget(c18730304.thtarget1)
 	e1:SetOperation(c18730304.thoperation1)
 	c:RegisterEffect(e1)
-	local e2=e1:Clone()
-	e2:SetRange(LOCATION_HAND)
-	c:RegisterEffect(e2)
 	--search
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(18730304,1))
@@ -38,12 +35,12 @@ function c18730304.ritual_filter(c)
 	return c:IsSetCard(0xabb) and bit.band(c:GetType(),0x81)==0x81
 end
 function c18730304.thtarget1(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c18730304.thfilter1,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE)
+	if chk==0 then return Duel.IsExistingMatchingCard(c18730304.thfilter1,tp,LOCATION_DECK,0,1,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c18730304.thoperation1(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c18730304.thfilter1,tp,LOCATION_GRAVE,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,c18730304.thfilter1,tp,LOCATION_DECK,0,1,1,nil)
 	if g:GetCount()>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
